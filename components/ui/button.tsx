@@ -50,7 +50,7 @@ export default function Button({
       onPress={handlePress}
       disabled={isDisabled}
       className={[
-        'h-16 min-h-16 rounded-full px-6 items-center justify-center',
+        'h-16 min-h-14 rounded-full px-6 items-center justify-center',
         styles.container,
         loading || disabled ? 'opacity-50' : '',
         className,

@@ -8,7 +8,18 @@ module.exports = {
   ],
   presets: [require('nativewind/preset')],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        // NOTE: React Native doesn't support CSS vars like var(--primary).
+        // Use a literal color so `text-primary` works on iOS/Android.
+        primary: '#0E4C32',
+        secondary: '#000000',
+        tertiary: '#8C8C8C',
+      },
+      fontFamily: {
+        arthaus: ['Arthaus-Bold', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 };
