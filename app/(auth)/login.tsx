@@ -1,15 +1,9 @@
 import Button from '@/components/ui/button';
 import InputField from '@/components/ui/input-fields';
+import { toast } from '@/components/ui/toast';
 import { EyeClosed } from 'lucide-react-native';
 import React, { useState } from 'react';
-import {
-  Alert,
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -17,14 +11,14 @@ export default function Login() {
 
   const handleLogin = () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+      toast.success('Please fill in all fields');
       return;
     }
 
     if (email === 'test@gmail.com' && password === '123456') {
-      Alert.alert('Success', 'Login successful!');
+      toast.success('Success');
     } else {
-      Alert.alert('Error', 'Invalid credentials');
+      toast.info('Invalid credentials');
     }
   };
 
