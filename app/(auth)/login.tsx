@@ -1,6 +1,7 @@
 import Button from '@/components/ui/button';
 import InputField from '@/components/ui/input-fields';
 import { toast } from '@/components/ui/toast';
+import { router } from 'expo-router';
 import { EyeClosed } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -20,6 +21,10 @@ export default function Login() {
     } else {
       toast.info('Invalid credentials');
     }
+  };
+
+  const handleSignup = () => {
+    router.push('/(auth)/signup');
   };
 
   return (
@@ -99,7 +104,13 @@ export default function Login() {
       </TouchableOpacity>
 
       <Text style={{ marginTop: 20, textAlign: 'center', color: '#9ca3af' }}>
-        Don't have an account? Sign up
+        Don't have an account?{' '}
+        <Text
+          onPress={handleSignup}
+          className=""
+        >
+          Sign up
+        </Text>
       </Text>
       <InputField placeholder="Email" />
       <InputField
