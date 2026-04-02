@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 211, 31%, 26%;
+    --destructive: 0 78% 73%;
+    --primary: 157 69% 18%;
+    --primary-foreground: 0 0% 98%;
+    --primary:       
+;
+  }
+}
