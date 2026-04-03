@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 export type InputFieldProps = Omit<TextInputProps, 'className'> & {
+  type?: 'text' | 'password';
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   containerClassName?: string;
@@ -25,15 +26,18 @@ function inputPaddingClasses(
 }
 
 export function InputField({
+  type = 'text',
   leftIcon,
   rightIcon,
   className,
   containerClassName,
   containerStyle,
   style,
+  secureTextEntry,
   ...textInputProps
 }: InputFieldProps) {
   const pad = inputPaddingClasses(leftIcon, rightIcon);
+  const resolvedSecureTextEntry = secureTextEntry ?? type === 'password';
 
   return (
     <View
@@ -59,6 +63,7 @@ export function InputField({
           .join(' ')}
         style={style}
         placeholderTextColor="#9ca3af"
+        secureTextEntry={resolvedSecureTextEntry}
         {...textInputProps}
       />
       {rightIcon != null ? (
