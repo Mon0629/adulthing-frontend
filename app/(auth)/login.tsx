@@ -1,14 +1,16 @@
-import Button from '@/components/ui/button';
-import InputField from '@/components/ui/input-fields';
+import { Button } from '@/components/ui/button';
+import { InputField } from '@/components/ui/input-fields';
 import { toast } from '@/components/ui/toast';
 import { router } from 'expo-router';
-import { EyeClosed } from 'lucide-react-native';
+import { Eye, EyeClosed } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Seperator } from '@/components/ui/seperator';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleLogin = () => {
     if (!email || !password) {
@@ -115,7 +117,19 @@ export default function Login() {
       <InputField placeholder="Email" />
       <InputField
         placeholder="Password"
-        rightIcon={<EyeClosed size={20} color="#9ca3af" />}
+        type="password"
+        secureTextEntry={!passwordVisible}
+        rightIcon={
+          passwordVisible ? (
+            <Eye size={20} color="#9ca3af" />
+          ) : (
+            <EyeClosed size={20} color="#9ca3af" />
+          )
+        }
+        onRightIconPress={() => setPasswordVisible((v) => !v)}
+        rightIconAccessibilityLabel={
+          passwordVisible ? 'Hide password' : 'Show password'
+        }
       />
       <Button onClick={handleLogin} variant="primary" className="w-full">
         Login
