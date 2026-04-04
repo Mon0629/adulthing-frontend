@@ -30,7 +30,7 @@ const variantStyles: Record<ButtonVariant, { container: string; text: string; sp
   ghost: { container: 'bg-transparent', text: 'text-[#0E4C32]', spinner: '#0E4C32' },
 };
 
-export default function Button({
+export function Button({
   children,
   onClick,
   onPress,

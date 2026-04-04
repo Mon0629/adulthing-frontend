@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Pressable,
   TextInput,
   type TextInputProps,
   View,
@@ -10,6 +11,9 @@ export type InputFieldProps = Omit<TextInputProps, 'className'> & {
   type?: 'text' | 'password';
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  /** When set, the right icon is tappable (e.g. toggle `secureTextEntry` from the parent). */
+  onRightIconPress?: () => void;
+  rightIconAccessibilityLabel?: string;
   containerClassName?: string;
   containerStyle?: ViewStyle;
   className?: string;
@@ -29,6 +33,8 @@ export function InputField({
   type = 'text',
   leftIcon,
   rightIcon,
+  onRightIconPress,
+  rightIconAccessibilityLabel,
   className,
   containerClassName,
   containerStyle,
@@ -67,10 +73,21 @@ export function InputField({
         {...textInputProps}
       />
       {rightIcon != null ? (
-        <View className="justify-center pr-6">{rightIcon}</View>
+        onRightIconPress != null ? (
+          <Pressable
+            accessibilityLabel={rightIconAccessibilityLabel}
+            accessibilityRole="button"
+            className="justify-center pr-6"
+            hitSlop={8}
+            onPress={onRightIconPress}
+          >
+            {rightIcon}
+          </Pressable>
+        ) : (
+          <View className="justify-center pr-6">{rightIcon}</View>
+        )
       ) : null}
     </View>
   );
 }
 
-export default InputField;
