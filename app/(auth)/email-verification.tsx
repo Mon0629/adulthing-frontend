@@ -9,6 +9,7 @@ import {
   type TextInputKeyPressEventData,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
 const CODE_LENGTH = 6;
 
@@ -44,6 +45,7 @@ export default function EmailVerification() {
     }
   };
 
+  //automatic next input when the user presses the next input
   const handleKeyPress = (
     e: NativeSyntheticEvent<TextInputKeyPressEventData>,
     index: number,
@@ -53,9 +55,15 @@ export default function EmailVerification() {
     }
   };
 
+//verify the code
+const handleVerify = () => {
+  router.push('/(auth)/success');
+};
+
+
   return (
     <SafeAreaView className="flex-1 px-6 py-4">
-      <Header showNotificationButton={false} title="Verification"/>
+      <Header showNotificationButton={false} title="Verification" onBack={() => {router.back()}}/>
       <View className="flex h-full justify-center items-center gap-12 px-6">
         <View className="flex justify-center items-center gap-6">
           <Text className=" text-4xl font-arthaus text-primary">
@@ -87,7 +95,7 @@ export default function EmailVerification() {
             />
           ))}
         </View>
-        <Button onClick={() => {}} variant="primary" className="w-full">
+        <Button onClick={handleVerify} variant="primary" className="w-full">
           Verify
         </Button>
 
