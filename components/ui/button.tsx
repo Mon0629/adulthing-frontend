@@ -1,9 +1,9 @@
 import React from 'react';
 import {
   ActivityIndicator,
+  Text,
   TouchableOpacity,
   type TouchableOpacityProps,
-  Text,
 } from 'react-native';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'destructive' | 'ghost';
@@ -50,7 +50,7 @@ export function Button({
       onPress={handlePress}
       disabled={isDisabled}
       className={[
-        'h-16 min-h-14 rounded-full px-6 items-center justify-center',
+        'h-12 min-h-12 rounded-full px-6 items-center justify-center',
         styles.container,
         loading || disabled ? 'opacity-50' : '',
         className,
@@ -62,7 +62,7 @@ export function Button({
       {loading ? (
         <ActivityIndicator size="small" color={styles.spinner} />
       ) : (
-        <Text className={['text-base text-lg', styles.text].join(' ')}>
+        <Text className={['text-base text-md', styles.text].join(' ')}>
           {children}
         </Text>
       )}
