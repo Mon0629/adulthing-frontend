@@ -1,6 +1,6 @@
-import { View, Text, Pressable } from 'react-native';
-import React from 'react';
 import { ArrowLeft, Bell } from 'lucide-react-native';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
 
 interface HeaderProps {
   title?: string;
@@ -39,7 +39,7 @@ export function Header({
         pointerEvents="none"
       >
         <Text
-          className="text-center text-2xl text-primary"
+          className="text-center font-arthaus text-2xl text-primary"
           numberOfLines={1}
         >
           {title}

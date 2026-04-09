@@ -48,7 +48,7 @@ export function InputField({
   return (
     <View
       className={[
-        'flex-row items-stretch min-h-12 min-w-full overflow-hidden rounded-full border border-gray-300 bg-white',
+        'flex-row items-stretch min-h-12  overflow-hidden rounded-full border border-gray-300 bg-white',
         containerClassName,
       ]
         .filter(Boolean)
