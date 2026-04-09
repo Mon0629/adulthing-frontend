@@ -10,7 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const iconGray = '#9ca3af';
 
 const handleSignup = () => {
-  router.push('/(auth)/email-verification');
+  router.push('/(auth)/email-verification?type=verification');
 }
 
 function Signup() {

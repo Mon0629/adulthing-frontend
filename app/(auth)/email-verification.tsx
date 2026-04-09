@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/ui/header';
-import React, { useRef, useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Text,
   TextInput,
@@ -9,18 +10,27 @@ import {
   type TextInputKeyPressEventData,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
 
 const CODE_LENGTH = 6;
 
+type OTPType = 'verification' | 'reset';
+
 export default function EmailVerification() {
+  const { type } = useLocalSearchParams<{ type?: OTPType }>();
+
+  const isVerification = type === 'verification';
+  const isResetPassword = type === 'reset';
+
   const [digits, setDigits] = useState<string[]>(() =>
     Array.from({ length: CODE_LENGTH }, () => ''),
   );
+
   const inputRefs = useRef<(TextInput | null)[]>([]);
 
   const handleChange = (text: string, index: number) => {
     const numeric = text.replace(/\D/g, '');
+
+    // handle paste (multiple digits)
     if (numeric.length > 1) {
       const chars = numeric.slice(0, CODE_LENGTH).split('');
       setDigits((prev) => {
@@ -30,22 +40,25 @@ export default function EmailVerification() {
         }
         return next;
       });
+
       const focusAt = Math.min(index + chars.length - 1, CODE_LENGTH - 1);
       inputRefs.current[focusAt]?.focus();
       return;
     }
+
     const digit = numeric.slice(-1);
+
     setDigits((prev) => {
       const next = [...prev];
       next[index] = digit;
       return next;
     });
+
     if (digit && index < CODE_LENGTH - 1) {
       inputRefs.current[index + 1]?.focus();
     }
   };
 
-  //automatic next input when the user presses the next input
   const handleKeyPress = (
     e: NativeSyntheticEvent<TextInputKeyPressEventData>,
     index: number,
@@ -55,25 +68,55 @@ export default function EmailVerification() {
     }
   };
 
-//verify the code
-const handleVerify = () => {
-  router.push('/(auth)/success');
-};
+  const handleVerify = () => {
+    if (isVerification) {
+      router.push('/(auth)/success?type=verification');
+    } else if (isResetPassword) {
+      router.push('/(auth)/create-new-password');
+    }
+  };
 
+  useEffect(() => {
+    const code = digits.join('');
+    if (code.length === CODE_LENGTH) {
+      handleVerify();
+    }
+  }, [digits]);
+
+  const title = isVerification ? 'Verification' : 'Reset Password';
+
+  const heading = isVerification
+    ? 'Verify your email'
+    : 'Enter OTP Code';
+
+  const description = isVerification
+    ? 'Enter the 6 digit verification code we sent to '
+    : 'Enter the 6 digit code to reset your password sent to ';
+
+  const buttonText = isVerification ? 'Verify' : 'Confirm OTP';
 
   return (
-    <SafeAreaView className="flex-1 px-6 py-4">
-      <Header showNotificationButton={false} title="Verification" onBack={() => {router.back()}}/>
+    <SafeAreaView className="flex-1 px-6 py-4 bg-white">
+      <Header
+        showNotificationButton={false}
+        title={title}
+        onBack={() => router.back()}
+      />
+
       <View className="flex h-full justify-center items-center gap-12 px-6">
         <View className="flex justify-center items-center gap-6">
-          <Text className=" text-4xl font-arthaus text-primary">
-            Verify your email
+          <Text className="text-4xl font-arthaus text-primary">
+            {heading}
           </Text>
+
           <Text className="text-md text-center text-tertiary font-medium">
-            Enter the 6 digit verification code we sent to{' '}
-            <Text className="text-primary font-bold">example@gmail.com</Text>
+            {description}
+            <Text className="text-primary font-bold">
+              example@gmail.com
+            </Text>
           </Text>
         </View>
+
         <View className="mt-6 mb-8 flex-row justify-center gap-1">
           {Array.from({ length: CODE_LENGTH }, (_, index) => (
             <TextInput
@@ -82,21 +125,22 @@ const handleVerify = () => {
                 inputRefs.current[index] = el;
               }}
               className="h-28 w-14 rounded-2xl border text-4xl border-gray-300 bg-white text-center text-gray-900"
-              placeholderTextColor="#d1d5db"
               keyboardType="number-pad"
               maxLength={CODE_LENGTH}
               value={digits[index]}
               onChangeText={(text) => handleChange(text, index)}
               onKeyPress={(e) => handleKeyPress(e, index)}
               selectTextOnFocus
-              onFocus={() => {
-                inputRefs.current[index]?.focus();
-              }}
             />
           ))}
         </View>
-        <Button onClick={handleVerify} variant="primary" className="w-full">
-          Verify
+
+        <Button
+          onClick={handleVerify}
+          variant="primary"
+          className="w-full"
+        >
+          {buttonText}
         </Button>
 
         <Text>

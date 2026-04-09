@@ -15,6 +15,11 @@ const iconPrimary = '#0E4C32';
   router.push('/(auth)/');
 }*/
 
+const handleForgotPassword = () => {
+  router.push('/(auth)/forgot-password');
+}
+
+
 function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -88,9 +93,11 @@ function Login() {
                   </Text>
                 </TouchableOpacity>
                 </View>
+                <TouchableOpacity onPress={handleForgotPassword}>
                 <Text className="italic text-md text-primary mr-2 ">
                   Forgot password?
                 </Text>
+                </TouchableOpacity>
               </View>
             </View>
             <Button onClick={() => {}} variant="primary" className="w-full">
